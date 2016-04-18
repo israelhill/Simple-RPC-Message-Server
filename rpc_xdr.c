@@ -10,9 +10,11 @@ xdr_client_data (XDR *xdrs, client_data *objp)
 {
 	register int32_t *buf;
 
+	int i;
 	 if (!xdr_int (xdrs, &objp->client_id))
 		 return FALSE;
-	 if (!xdr_int (xdrs, &objp->client_msg))
+	 if (!xdr_vector (xdrs, (char *)objp->client_msg, 10,
+		sizeof (char), (xdrproc_t) xdr_char))
 		 return FALSE;
 	return TRUE;
 }

@@ -1,6 +1,6 @@
 struct client_data {
     int client_id;
-    int client_msg;
+    char client_msg[10];
 };
 
 program RPC_PRG {

@@ -29,7 +29,10 @@ int main(int argc, char *argv[]){
 
     int id = 909;
     char *msg = "Hello world!";
-    struct client_data data = {909, 888};
+//    struct client_data data = {909, msg};
+	struct client_data data;
+	data.client_id = 999;
+	strcpy(data.client_msg, "hello");
 
 //    printf("%s, %s\n", data.client_id, data.client_msg);
 

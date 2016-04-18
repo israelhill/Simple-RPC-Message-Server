@@ -13,11 +13,11 @@ int *put_1_svc(struct client_data *argp, struct svc_req *rqstp) {
 	static int  result;
 	int id = argp->client_id;
 //	char *msg = argp->client_msg;
-	int msg = argp->client_msg;
+//	int msg = argp->client_msg;
 
-//	result = printf("Server: %s\n", msg);
-	result = printf("Server: %d, %d\n", msg, id);
-
+	result = printf("Server: %s\n", argp->client_msg);
+//	result = printf("Server: %d, %d\n", msg, id);
+//	result = 99;
 	//result = printf("Server: Hello world");
 	return (&result);
 }

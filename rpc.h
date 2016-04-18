@@ -16,7 +16,7 @@ extern "C" {
 
 struct client_data {
 	int client_id;
-	int client_msg;
+	char client_msg[10];
 };
 typedef struct client_data client_data;
 
