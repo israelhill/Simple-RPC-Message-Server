@@ -12,12 +12,12 @@
 
 char *host;
 CLIENT *client;
-char message[2048];
 
 // uses output from the fortune program as client message
 char* exe_fortune();
 
 void send_msgs(int id);
+void get_msgs();
 
 int main(int argc, char *argv[]){
     if (argc < 3) {
