@@ -27,18 +27,11 @@ int main(int argc, char *argv[]){
         exit(EXIT_FAILURE);
     }
 
-    int id = 909;
-    char *msg = "Hello world!";
-//    struct client_data data = {909, msg};
 	struct client_data data;
 	data.client_id = atoi(argv[2]);
 	strcpy(data.client_msg, "hello");
 
-//    printf("%s, %s\n", data.client_id, data.client_msg);
-
-    char *func = "put function";
-
-    printf("Client : Calling function %s.\n", func);
+    printf("Client : Calling function.\n");
     return_value = put_1(&data, client);
 
     if (return_value) {
