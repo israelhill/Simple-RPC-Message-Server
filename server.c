@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+//working
 int *put_1_svc(struct client_data *argp, struct svc_req *rqstp) {
 	static int  result;
 	int id = argp->client_id;
