@@ -63,7 +63,7 @@ int main(int argc, char *argv[]){
 
 char* exe_fortune() {
     FILE *fp;
-    char path[2048];
+    static char path[2048];
     int status;
 
     /* Open the command for reading. */
