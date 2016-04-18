@@ -8,8 +8,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <time.h>
 
 char* exe_fortune();
+void get_time();
 
 
 int main(int argc, char *argv[]){
@@ -19,7 +21,7 @@ int main(int argc, char *argv[]){
     char message[2048];
 
 
-    if (argc < 4) {
+    if (argc < 3) {
         printf("Usage: %s server host\n", argv[0]);
         exit(EXIT_FAILURE);
     }
@@ -34,8 +36,6 @@ int main(int argc, char *argv[]){
 	struct client_data data;
 	data.client_id = atoi(argv[2]);
 	strcpy(data.client_msg, exe_fortune());
-
-    //exe_fortune();
 
     printf("Client : Calling put function.\n");
     return_value = put_1(&data, client);
@@ -85,4 +85,13 @@ char* exe_fortune() {
         exit(EXIT_FAILURE);
     }
     return path;
+}
+
+void get_time() {
+    time_t rawtime;
+    struct tm *timeinfo;
+
+    time (&rawtime);
+    timeinfo = localtime(&rawtime);
+    printf ( "Current local time and date: %s", asctime(timeinfo));
 }

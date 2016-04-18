@@ -8,6 +8,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <time.h>
+
+void get_time();
 
 client_data messages[100] = {{-1, ""}};
 int client_req_num = 0;
@@ -55,4 +58,14 @@ int *get_1_svc(void *argp, struct svc_req *rqstp) {
 		result = printf("Server: No messages for client #%d.\n", current_client_id);
 	}
 	return &result;
+}
+
+
+void get_time() {
+	time_t rawtime;
+	struct tm *timeinfo;
+
+	time (&rawtime);
+	timeinfo = localtime(&rawtime);
+	printf ( "Current local time and date: %s", asctime(timeinfo));
 }
