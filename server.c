@@ -40,7 +40,7 @@ get_1_svc(void *argp, struct svc_req *rqstp)
 		return &result;
 	}
 
-	result = printf("Server Msg: %s\n", messages[0]);
+	result = printf("Server Msg: %s\n", messages[0].client_msg);
 
 	return &result;
 }
