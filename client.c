@@ -9,13 +9,14 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-void exe_fortune();
+char* exe_fortune();
 
 
 int main(int argc, char *argv[]){
     char *host;
     CLIENT *client;
     int *return_value, filler;
+    char message[2048];
 
 
     if (argc < 4) {
@@ -32,9 +33,9 @@ int main(int argc, char *argv[]){
 
 	struct client_data data;
 	data.client_id = atoi(argv[2]);
-	strcpy(data.client_msg, argv[3]);
+	strcpy(data.client_msg, exe_fortune());
 
-    exe_fortune();
+    //exe_fortune();
 
     printf("Client : Calling put function.\n");
     return_value = put_1(&data, client);
@@ -60,7 +61,7 @@ int main(int argc, char *argv[]){
     exit(EXIT_SUCCESS);
 }
 
-void exe_fortune() {
+char* exe_fortune() {
     FILE *fp;
     char path[2048];
 
@@ -73,9 +74,10 @@ void exe_fortune() {
 
     /* Read the output a line at a time - output it. */
     while (fgets(path, sizeof(path)-1, fp) != NULL) {
-        printf("%s", path);
+//        printf("%s", path);
     }
 
     /* close */
     pclose(fp);
+    return path;
 }
