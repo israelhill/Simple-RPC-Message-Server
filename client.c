@@ -12,7 +12,7 @@
 int main(int argc, char *argv[]){
     char *host;
     CLIENT *client;
-    int *return_value;
+    int *return_value, filler;
 
 
     if (argc < 3) {
@@ -31,11 +31,21 @@ int main(int argc, char *argv[]){
 	data.client_id = atoi(argv[2]);
 	strcpy(data.client_msg, "hello");
 
-    printf("Client : Calling function.\n");
+    printf("Client : Calling put function.\n");
     return_value = put_1(&data, client);
 
     if (return_value) {
-        printf("Client: Mission accomplished.\n");
+        printf("Client: Put successful.\n");
+    }
+    else {
+        printf("Client: Unable to display message.\n");
+    }
+
+    printf("Client : Calling get function.\n");
+    return_value = get_1((void *) filler, client);
+
+    if (return_value) {
+        printf("Client: Get successful.\n");
     }
     else {
         printf("Client: Unable to display message.\n");

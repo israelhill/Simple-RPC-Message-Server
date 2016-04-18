@@ -10,6 +10,7 @@
 
 client_data messages[100] = {{-1, ""}};
 int client_req_num = 0;
+int count = 0;
 
 int *put_1_svc(struct client_data *argp, struct svc_req *rqstp) {
 	static int  result;
@@ -22,6 +23,7 @@ int *put_1_svc(struct client_data *argp, struct svc_req *rqstp) {
 //	}
 
 	messages[client_req_num] = *argp;
+	count++;
 
 	result = printf("Server: %s, %d\n", messages[client_req_num].client_msg, messages[client_req_num].client_id);
 	client_req_num++;
@@ -33,9 +35,12 @@ get_1_svc(void *argp, struct svc_req *rqstp)
 {
 	static int  result;
 
-	/*
-	 * insert server code here
-	 */
+	if(count == 0) {
+		result = -1;
+		return &result;
+	}
+
+	result = printf("Server Msg: %s\n", messages[0]);
 
 	return &result;
 }
