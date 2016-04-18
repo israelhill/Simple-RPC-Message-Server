@@ -21,7 +21,7 @@ int *put_1_svc(struct client_data *argp, struct svc_req *rqstp) {
 	messages[client_req_num] = *argp;
 	count++;
 
-	result = printf("Server: %s, %d\n", messages[client_req_num].client_msg, messages[client_req_num].client_id);
+	result = printf("Server Received: %s, %d\n", messages[client_req_num].client_msg, messages[client_req_num].client_id);
 	client_req_num++;
 	return (&result);
 }
@@ -44,14 +44,14 @@ int *get_1_svc(void *argp, struct svc_req *rqstp) {
 		// do not retrieve your own message
 		if(id != current_client_id) {
 			found_msg = 1;
-			result = printf("Server Msg: %s\n", messages[i].client_msg);
+			result = printf("Server Retrieved Msg: %s\n", messages[i].client_msg);
 			break;
 		}
 	}
 
 	if(found_msg == 0) {
 //		result = -1;
-		result = printf("Server: No messages for you.");
+		result = printf("Server: No messages for client #%d.\n", current_client_id);
 	}
 	return &result;
 }

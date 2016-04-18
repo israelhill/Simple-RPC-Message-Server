@@ -41,6 +41,7 @@ int main(int argc, char *argv[]){
         printf("Client: Unable to display message.\n");
     }
 
+    sleep(1);
     printf("Client : Calling get function.\n");
     return_value = get_1((void *) filler, client);
 
