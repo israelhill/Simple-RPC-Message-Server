@@ -66,12 +66,12 @@ void get_msgs() {
     sleep(5);
     return_value = get_1((void *) filler, client);
 
-//    if (return_value) {
-//        printf("Client: Get successful.\n");
-//    }
-//    else {
-//        printf("Client: Unable to display message.\n");
-//    }
+    if (return_value) {
+        printf("Client: Get successful.\n");
+    }
+    else {
+        printf("Client: Unable to display message.\n");
+    }
 }
 
 char* exe_fortune() {
