@@ -9,18 +9,22 @@
 #include <stdlib.h>
 
 client_data messages[100] = {{-1, ""}};
+int client_req_num = 0;
 
 int *put_1_svc(struct client_data *argp, struct svc_req *rqstp) {
 	static int  result;
 	int id = argp->client_id;
 	
-	int i = 0;
-	while(messages[i].client_id != -1 && strcmp(messages[i].client_msg, "")) {
-		messages[i] = *argp;
-		break;
-	}
+//	int i = 0;
+//	while(messages[i].client_id != -1 && strcmp(messages[i].client_msg, "")) {
+//		messages[i] = *argp;
+//		break;
+//	}
 
-	result = printf("Server: %s, %d\n", messages[0].client_msg, messages[0].client_id);
+	messages[client_req_num] = *argp;
+
+	result = printf("Server: %s, %d\n", messages[client_req_num].client_msg, messages[client_req_num].client_id);
+	client_req_num++;
 	return (&result);
 }
 
