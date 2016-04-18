@@ -37,6 +37,7 @@ int main(int argc, char *argv[]){
 	data.client_id = atoi(argv[2]);
 	strcpy(data.client_msg, exe_fortune());
 
+    get_time();
     printf("Client : Calling put function.\n");
     return_value = put_1(&data, client);
 
