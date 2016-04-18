@@ -10,7 +10,7 @@
 #include <unistd.h>
 #include <time.h>
 
-void get_time();
+char* get_time();
 
 client_data messages[100] = {{-1, ""}};
 int client_req_num = 0;
@@ -25,7 +25,8 @@ int *put_1_svc(struct client_data *argp, struct svc_req *rqstp) {
 	messages[client_req_num] = *argp;
 	count++;
 
-	result = printf("Server Received: %s, %d\n", messages[client_req_num].client_msg, messages[client_req_num].client_id);
+	result = printf("Server Received: %s from %d at %s\n", messages[client_req_num].client_msg,
+					messages[client_req_num].client_id, get_time());
 	client_req_num++;
 	return (&result);
 }
@@ -61,11 +62,11 @@ int *get_1_svc(void *argp, struct svc_req *rqstp) {
 }
 
 
-void get_time() {
+char* get_time() {
 	time_t rawtime;
 	struct tm *timeinfo;
 
 	time (&rawtime);
 	timeinfo = localtime(&rawtime);
-	printf ( "Current local time and date: %s", asctime(timeinfo));
+	return asctime(timeinfo);
 }

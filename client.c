@@ -94,5 +94,5 @@ void get_time() {
 
     time (&rawtime);
     timeinfo = localtime(&rawtime);
-    printf ( "Current local time and date: %s", asctime(timeinfo));
+    printf("Time: %s\n", asctime(timeinfo));
 }
