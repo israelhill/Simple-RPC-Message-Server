@@ -51,11 +51,8 @@ void send_msgs(int id) {
     // send a message to the server
     return_value = put_1(&data, client);
 
-    if (return_value) {
-        printf("Client: Put successful.\n");
-    }
-    else {
-        printf("Client: Unable to display message.\n");
+    if (return_value != -1) {
+        printf("Client Says-- Put successful.\n");
     }
 }
 
@@ -66,11 +63,8 @@ void get_msgs() {
     sleep(5);
     return_value = get_1((void *) filler, client);
 
-    if (return_value) {
-        printf("Client: Get successful.\n");
-    }
-    else {
-        printf("Client: Unable to display message.\n");
+    if (return_value == -1) {
+        printf("Client Says-- There were no messages for me.\n");
     }
 }
 

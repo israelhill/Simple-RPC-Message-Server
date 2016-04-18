@@ -25,7 +25,7 @@ int *put_1_svc(struct client_data *argp, struct svc_req *rqstp) {
 	messages[client_req_num] = *argp;
 	count++;
 
-	result = printf("Server Received Put Request: \"%s\" from Client_%d at %s\n", messages[client_req_num].client_msg,
+	result = printf("Server Says-- Put() Request: \"%s\" from Client_%d at %s\n", messages[client_req_num].client_msg,
 					messages[client_req_num].client_id, get_time());
 	client_req_num++;
 	return (&result);
@@ -47,7 +47,7 @@ int *get_1_svc(void *argp, struct svc_req *rqstp) {
 		// do not retrieve your own message
 		if(id != current_client_id) {
 			found_msg = 1;
-			result = printf("Server Received Get Request at %s. Message: \"%s\"\n", get_time(), messages[i].client_msg);
+			result = printf("Server Says-- Get() Request at %s. Message: \"%s\"\n", get_time(), messages[i].client_msg);
 			break;
 		}
 	}
