@@ -10,35 +10,45 @@
 #include <unistd.h>
 #include <time.h>
 
-char* exe_fortune();
-void get_time();
+char *host;
+CLIENT *client;
+char message[2048];
 
+// uses output from the fortune program as client message
+char* exe_fortune();
+
+void send_msgs(int id);
 
 int main(int argc, char *argv[]){
-    char *host;
-    CLIENT *client;
-    int *return_value, filler;
-    char message[2048];
-
-
     if (argc < 3) {
         printf("Usage: %s server host\n", argv[0]);
         exit(EXIT_FAILURE);
     }
 
     host = argv[1];
-
     if ((client = clnt_create(host, RPC_PRG, RPC_V1, "tcp")) == (CLIENT *) NULL) {
         clnt_pcreateerror(host);
         exit(EXIT_FAILURE);
     }
 
-	struct client_data data;
-	data.client_id = atoi(argv[2]);
-	strcpy(data.client_msg, exe_fortune());
+    // send 5 messages to the server
+    send_msgs(atoi(argv[2]));
 
-    get_time();
-    printf("Client : Calling put function.\n");
+    // get 10 messages from the server
+    get_msgs();
+
+    exit(EXIT_SUCCESS);
+}
+
+void send_msgs(int id) {
+    int *return_value;
+
+    // initialize data that will be sent to server i.e. client id and message
+    struct client_data data;
+    data.client_id = id;
+    strcpy(data.client_msg, exe_fortune());
+
+    // send a message to the server
     return_value = put_1(&data, client);
 
     if (return_value) {
@@ -47,19 +57,21 @@ int main(int argc, char *argv[]){
     else {
         printf("Client: Unable to display message.\n");
     }
+}
 
-    sleep(1);
-    printf("Client : Calling get function.\n");
+void get_msgs() {
+    int *return_value, filler;
+
+    // sleep for 5 seconds before getting messages from the server
+    sleep(5);
     return_value = get_1((void *) filler, client);
 
-    if (return_value) {
-        printf("Client: Get successful.\n");
-    }
-    else {
-        printf("Client: Unable to display message.\n");
-    }
-
-    exit(EXIT_SUCCESS);
+//    if (return_value) {
+//        printf("Client: Get successful.\n");
+//    }
+//    else {
+//        printf("Client: Unable to display message.\n");
+//    }
 }
 
 char* exe_fortune() {
@@ -67,32 +79,23 @@ char* exe_fortune() {
     static char path[2048];
     int status;
 
-    /* Open the command for reading. */
+    // Open the command for reading
     fp = popen("/usr/games/fortune", "r");
     if (fp == NULL) {
         printf("Failed to run command: fortune\n" );
         exit(1);
     }
 
-    /* Read the output a line at a time - output it. */
+    // Read the output a line at a time
     while (fgets(path, sizeof(path)-1, fp) != NULL) {
         // do nothing
     }
 
-    /* close */
+    // close
     status = pclose(fp);
     if(status == -1) {
         perror("pclose()");
         exit(EXIT_FAILURE);
     }
     return path;
-}
-
-void get_time() {
-    time_t rawtime;
-    struct tm *timeinfo;
-
-    time (&rawtime);
-    timeinfo = localtime(&rawtime);
-    printf("Time: %s\n", asctime(timeinfo));
 }
