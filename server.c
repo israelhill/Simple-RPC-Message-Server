@@ -11,16 +11,12 @@
 client_data messages[100] = {{-1, ""}};
 int client_req_num = 0;
 int count = 0;
+int current_client_id;
 
 int *put_1_svc(struct client_data *argp, struct svc_req *rqstp) {
 	static int  result;
 	int id = argp->client_id;
-	
-//	int i = 0;
-//	while(messages[i].client_id != -1 && strcmp(messages[i].client_msg, "")) {
-//		messages[i] = *argp;
-//		break;
-//	}
+	current_client_id = argp->client_id;
 
 	messages[client_req_num] = *argp;
 	count++;
@@ -30,9 +26,7 @@ int *put_1_svc(struct client_data *argp, struct svc_req *rqstp) {
 	return (&result);
 }
 
-int *
-get_1_svc(void *argp, struct svc_req *rqstp)
-{
+int *get_1_svc(void *argp, struct svc_req *rqstp) {
 	static int  result;
 
 	if(count == 0) {
@@ -40,7 +34,24 @@ get_1_svc(void *argp, struct svc_req *rqstp)
 		return &result;
 	}
 
-	result = printf("Server Msg: %s\n", messages[0].client_msg);
+//	result = printf("Server Msg: %s\n", messages[0].client_msg);
 
+	int found_msg = 0;
+	int i;
+	for(i = 0; i < client_req_num; i++) {
+		int id = messages[i].client_id;
+
+		// do not retrieve your own message
+		if(id != current_client_id) {
+			found_msg = 1;
+			result = printf("Server Msg: %s\n", messages[i].client_msg);
+			break;
+		}
+	}
+
+	if(found_msg == 0) {
+//		result = -1;
+		result = printf("Server: No messages for you.");
+	}
 	return &result;
 }

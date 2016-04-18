@@ -15,7 +15,7 @@ int main(int argc, char *argv[]){
     int *return_value, filler;
 
 
-    if (argc < 3) {
+    if (argc < 4) {
         printf("Usage: %s server host\n", argv[0]);
         exit(EXIT_FAILURE);
     }
@@ -29,7 +29,7 @@ int main(int argc, char *argv[]){
 
 	struct client_data data;
 	data.client_id = atoi(argv[2]);
-	strcpy(data.client_msg, "hello");
+	strcpy(data.client_msg, argv[3]);
 
     printf("Client : Calling put function.\n");
     return_value = put_1(&data, client);
