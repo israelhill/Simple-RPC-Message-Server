@@ -9,6 +9,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+void exe_fortune();
+
 
 int main(int argc, char *argv[]){
     char *host;
@@ -32,6 +34,8 @@ int main(int argc, char *argv[]){
 	data.client_id = atoi(argv[2]);
 	strcpy(data.client_msg, argv[3]);
 
+    exe_fortune();
+
     printf("Client : Calling put function.\n");
     return_value = put_1(&data, client);
 
@@ -54,4 +58,24 @@ int main(int argc, char *argv[]){
     }
 
     exit(EXIT_SUCCESS);
+}
+
+void exe_fortune() {
+    FILE *fp;
+    char path[2048];
+
+    /* Open the command for reading. */
+    fp = popen("/usr/games/fortune", "r");
+    if (fp == NULL) {
+        printf("Failed to run command: fortune\n" );
+        exit(1);
+    }
+
+    /* Read the output a line at a time - output it. */
+    while (fgets(path, sizeof(path)-1, fp) != NULL) {
+        printf("%s", path);
+    }
+
+    /* close */
+    pclose(fp);
 }
