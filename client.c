@@ -15,7 +15,7 @@ int main(int argc, char *argv[]){
     int *return_value;
 
 
-    if (argc < 2) {
+    if (argc < 3) {
         printf("Usage: %s server host\n", argv[0]);
         exit(EXIT_FAILURE);
     }
@@ -31,7 +31,7 @@ int main(int argc, char *argv[]){
     char *msg = "Hello world!";
 //    struct client_data data = {909, msg};
 	struct client_data data;
-	data.client_id = 999;
+	data.client_id = atoi(argv[2]);
 	strcpy(data.client_msg, "hello");
 
 //    printf("%s, %s\n", data.client_id, data.client_msg);
