@@ -7,6 +7,7 @@
 #include "rpc.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 client_data messages[100] = {{-1, ""}};
 int client_req_num = 0;
