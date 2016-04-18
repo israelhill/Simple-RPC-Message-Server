@@ -64,6 +64,7 @@ int main(int argc, char *argv[]){
 char* exe_fortune() {
     FILE *fp;
     char path[2048];
+    int status;
 
     /* Open the command for reading. */
     fp = popen("/usr/games/fortune", "r");
@@ -74,10 +75,14 @@ char* exe_fortune() {
 
     /* Read the output a line at a time - output it. */
     while (fgets(path, sizeof(path)-1, fp) != NULL) {
-//        printf("%s", path);
+        // do nothing
     }
 
     /* close */
-    pclose(fp);
+    status = pclose(fp);
+    if(status == -1) {
+        perror("pclose()");
+        exit(EXIT_FAILURE);
+    }
     return path;
 }
