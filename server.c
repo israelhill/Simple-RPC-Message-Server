@@ -15,7 +15,7 @@ int *put_1_svc(struct client_data *argp, struct svc_req *rqstp) {
 	int id = argp->client_id;
 	
 	int i = 0;
-	while(messages[i].client_id != -1 && messages[i].client_id != "") {
+	while(messages[i].client_id != -1 && strcmp(messages[i].client_id, "")) {
 		messages[i] = *argp;
 		break;
 	}
