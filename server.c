@@ -25,7 +25,6 @@ int *put_1_svc(struct client_data *argp, struct svc_req *rqstp) {
 	current_client_id = argp->client_id;
 
 	messages[client_req_num] = *argp;
-	count++;
 
 	result = printf("Server Says-- Put() Request: \"%s\" from Client_%d at %s\n", messages[client_req_num].client_msg,
 					messages[client_req_num].client_id, get_time());
@@ -45,7 +44,7 @@ int *get_1_svc(void *argp, struct svc_req *rqstp) {
 	int i;
 
 	while(found_msg == 0) {
-		int rand_val = rand() % client_req_num;
+		int rand_val = rand() % (client_req_num - 1);
 		int id = messages[rand_val].client_id;
 
 		if(client_req_num <= 1) {
