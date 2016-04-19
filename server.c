@@ -11,12 +11,13 @@
 #include <time.h>
 
 char* get_time();
-int check_for_multiple_clients();
+int check_for_multiple_clients(int id);
 
 client_data messages[100] = {{-1, ""}};
 int client_req_num = 0;
 int current_client_id;
 int past_client = 0;
+int count;
 
 int *put_1_svc(struct client_data *argp, struct svc_req *rqstp) {
 	static int  result;
@@ -61,14 +62,22 @@ int *get_1_svc(void *argp, struct svc_req *rqstp) {
 }
 
 // this function checks if there is only one client who has visited the server so far
-int check_for_multiple_clients() {
-	if(past_client <= 1) {
-		past_client++;
+int check_for_multiple_clients(int id) {
+	if(past_client == 0) {
+		past_client = id;
+		count++;
+		return -1;
+	}
+
+	if(past_client == id && count == 1) {
 		return -1;
 	}
 	else {
+		count++;
 		return 0;
 	}
+
+
 }
 
 

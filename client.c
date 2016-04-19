@@ -60,7 +60,7 @@ void get_msgs() {
     int *return_value, filler;
 
     // sleep for 5 seconds before getting messages from the server
-    sleep(5);
+    sleep(1);
     return_value = get_1((void *) filler, client);
 
     if (*return_value == -1) {
