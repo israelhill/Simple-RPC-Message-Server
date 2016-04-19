@@ -36,7 +36,7 @@ int *put_1_svc(struct client_data *argp, struct svc_req *rqstp) {
 int *get_1_svc(void *argp, struct svc_req *rqstp) {
 	static int  result;
 
-	if(check_for_multiple_clients() == -1) {
+	if(check_for_multiple_clients(current_client_id) == -1) {
 		result = -1;
 		return &result;
 	}
