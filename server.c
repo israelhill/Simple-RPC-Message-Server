@@ -11,11 +11,12 @@
 #include <time.h>
 
 char* get_time();
+int check_for_multiple_clients();
 
 client_data messages[100] = {{-1, ""}};
 int client_req_num = 0;
-int count = 0;
 int current_client_id;
+int past_client = 0;
 
 int *put_1_svc(struct client_data *argp, struct svc_req *rqstp) {
 	static int  result;
@@ -34,28 +35,41 @@ int *put_1_svc(struct client_data *argp, struct svc_req *rqstp) {
 int *get_1_svc(void *argp, struct svc_req *rqstp) {
 	static int  result;
 
-	if(count == 0) {
+	if(check_for_multiple_clients() == -1) {
 		result = -1;
 		return &result;
 	}
 
 	int found_msg = 0;
 	int i;
-	for(i = 0; i < client_req_num; i++) {
-		int id = messages[i].client_id;
 
-		// do not retrieve your own message
-		if(id != current_client_id) {
+	while(found_msg == 0) {
+		int rand_val = rand() % client_req_num;
+		int id = messages[rand_val].client_id;
+
+		if(client_req_num <= 1) {
+			// You are the first client to request a msg. Only your msg is saved at this point.
+			result = -1;
+			return &result;
+		}
+		else if(id != current_client_id) {
 			found_msg = 1;
-			result = printf("Server Says-- Get() Request at %s. Message: \"%s\"\n", get_time(), messages[i].client_msg);
-			break;
+			result = printf("Server Says-- Get() Request at %s. Message: \"%s\"\n", get_time(), messages[rand_val].client_msg);
 		}
 	}
 
-	if(found_msg == 0) {
-		result = -1;
-	}
 	return &result;
+}
+
+// this function checks if there is only one client who has visited the server so far
+int check_for_multiple_clients() {
+	if(past_client <= 1) {
+		past_client++;
+		return -1;
+	}
+	else {
+		return 0;
+	}
 }
 
 
