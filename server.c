@@ -25,6 +25,7 @@ int *put_1_svc(struct client_data *argp, struct svc_req *rqstp) {
 	current_client_id = argp->client_id;
 
 	messages[client_req_num] = *argp;
+	count++;
 
 	result = printf("Server Says-- Put() Request: \"%s\" from Client_%d at %s\n", messages[client_req_num].client_msg,
 					messages[client_req_num].client_id, get_time());

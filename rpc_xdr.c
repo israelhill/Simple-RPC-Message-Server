@@ -13,7 +13,7 @@ xdr_client_data (XDR *xdrs, client_data *objp)
 	int i;
 	 if (!xdr_int (xdrs, &objp->client_id))
 		 return FALSE;
-	 if (!xdr_vector (xdrs, (char *)objp->client_msg, 10,
+	 if (!xdr_vector (xdrs, (char *)objp->client_msg, 2048,
 		sizeof (char), (xdrproc_t) xdr_char))
 		 return FALSE;
 	return TRUE;
