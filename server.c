@@ -56,7 +56,7 @@ struct response *get_1_svc(void *argp, struct svc_req *rqstp) {
 			found_msg = 1;
 			//result = printf("Server Says-- Get() Request at %s. Message: \"%s\"\n", get_time(), messages[rand_val].client_msg);
 			result.status_code = 0;
-			result.message = messages[rand_val].client_msg;
+			strcpy(result.message, messages[rand_val].client_msg);
 		}
 	}
 
