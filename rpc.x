@@ -6,7 +6,7 @@ struct client_data {
 struct response {
     int status_code;
     char message[7999];
-}
+};
 
 program RPC_PRG {
 	version RPC_V1 {
