@@ -22,12 +22,18 @@ int count;
 int *put_1_svc(struct client_data *argp, struct svc_req *rqstp) {
 	static int  result;
 	int id = argp->client_id;
+
 	current_client_id = argp->client_id;
 
-	messages[client_req_num] = *argp;
-
-	result = printf("Server Says-- Put() Request: \"%s\" from Client_%d at %s\n", messages[client_req_num].client_msg,
-					messages[client_req_num].client_id, get_time());
+	if(client_req_num == 3) {
+		// there are already 3 clients communicating with the server
+		result = -1;
+	}
+	else {
+		// store the message
+		messages[client_req_num] = *argp;
+		result = 0;
+	}
 	client_req_num++;
 	return (&result);
 }
@@ -54,7 +60,6 @@ struct response *get_1_svc(void *argp, struct svc_req *rqstp) {
 		}
 		else if(id != current_client_id) {
 			found_msg = 1;
-			//result = printf("Server Says-- Get() Request at %s. Message: \"%s\"\n", get_time(), messages[rand_val].client_msg);
 			result.status_code = 0;
 			strcpy(result.message, messages[rand_val].client_msg);
 		}
@@ -78,8 +83,6 @@ int check_for_multiple_clients(int id) {
 		count++;
 		return 0;
 	}
-
-
 }
 
 
