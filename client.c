@@ -41,7 +41,7 @@ int main(int argc, char *argv[]){
 }
 
 void send_msgs(int id) {
-    struct response *return_value;
+    int *return_value;
 
     // initialize data that will be sent to server i.e. client id and message
     struct client_data data;
@@ -51,13 +51,14 @@ void send_msgs(int id) {
     // send a message to the server
     return_value = put_1(&data, client);
 
-    if (*return_value.status_code == 0) {
+    if (*return_value->status_code == 0) {
         printf("Client Says-- Put successful.\n");
     }
 }
 
 void get_msgs() {
-    int *return_value, filler;
+    struct response *return_value;
+    int filler;
 
     // sleep for 5 seconds before getting messages from the server
     sleep(1);
