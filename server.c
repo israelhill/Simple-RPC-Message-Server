@@ -32,11 +32,11 @@ int *put_1_svc(struct client_data *argp, struct svc_req *rqstp) {
 	return (&result);
 }
 
-int *get_1_svc(void *argp, struct svc_req *rqstp) {
-	static int  result;
+struct response *get_1_svc(void *argp, struct svc_req *rqstp) {
+	static struct response  result;
 
 	if(check_for_multiple_clients(current_client_id) == -1) {
-		result = -1;
+		result.status_code = -1;
 		return &result;
 	}
 
@@ -49,12 +49,14 @@ int *get_1_svc(void *argp, struct svc_req *rqstp) {
 
 		if(client_req_num <= 1) {
 			// You are the first client to request a msg. Only your msg is saved at this point.
-			result = -1;
+			result.status_code = -1;
 			return &result;
 		}
 		else if(id != current_client_id) {
 			found_msg = 1;
-			result = printf("Server Says-- Get() Request at %s. Message: \"%s\"\n", get_time(), messages[rand_val].client_msg);
+			//result = printf("Server Says-- Get() Request at %s. Message: \"%s\"\n", get_time(), messages[rand_val].client_msg);
+			result.status_code = 0;
+			result.message = messages[rand_val].client_msg;
 		}
 	}
 
