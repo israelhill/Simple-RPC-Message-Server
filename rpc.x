@@ -11,6 +11,6 @@ struct response {
 program RPC_PRG {
 	version RPC_V1 {
 		int put(struct client_data) = 1;
-		struct response get(void) = 2;
+		struct response get(int) = 2;
 	} = 1;
 } = 0x20000001;

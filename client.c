@@ -32,10 +32,21 @@ int main(int argc, char *argv[]){
     }
 
     // send 5 messages to the server
-    send_msgs(atoi(argv[2]));
+    int i = 0;
+    while(i < 5) {
+        sleep(1);
+        send_msgs(atoi(argv[2]));
+        i++;
+    }
+    sleep(5);
 
     // get 10 messages from the server
-    get_msgs();
+    i = 0;
+    while (i < 10) {
+        sleep(1);
+        get_msgs();
+        i++;
+    }
 
     exit(EXIT_SUCCESS);
 }

@@ -24,6 +24,7 @@ int *put_1_svc(struct client_data *argp, struct svc_req *rqstp) {
 	int id = argp->client_id;
 
 	current_client_id = argp->client_id;
+	printf("Put Request from Client #%s\n", current_client_id);
 
 	if(client_req_num == 3) {
 		// there are already 3 clients communicating with the server
@@ -39,7 +40,7 @@ int *put_1_svc(struct client_data *argp, struct svc_req *rqstp) {
 }
 
 struct response *get_1_svc(void *argp, struct svc_req *rqstp) {
-	static struct response  result;
+	static struct response result;
 
 	if(check_for_multiple_clients(current_client_id) == -1) {
 		result.status_code = -1;
@@ -68,7 +69,8 @@ struct response *get_1_svc(void *argp, struct svc_req *rqstp) {
 	return &result;
 }
 
-// this function checks if there is only one client who has visited the server so far
+// this function checks that the current client requesting a message
+// is not the only client who has put a message on the server so far
 int check_for_multiple_clients(int id) {
 	if(past_client == 0) {
 		past_client = id;
