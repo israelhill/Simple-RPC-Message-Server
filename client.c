@@ -59,27 +59,27 @@ void send_msgs(int id) {
     data.client_id = id;
     strcpy(data.client_msg, exe_fortune());
 
+    printf("Calling Put.\n");
     // send a message to the server
     return_value = put_1(&data, client);
 
     if (*return_value == 0) {
-        printf("Client Says-- Put successful.\n");
+        printf("Put successful. Status code: %d\n", *return_value);
     }
 }
 
 void get_msgs() {
     struct response *return_value;
     int filler;
-
-    // sleep for 5 seconds before getting messages from the server
-    sleep(1);
+    
+    printf("Calling Get.\n");
     return_value = get_1((void *) filler, client);
 
     if (return_value->status_code != 0) {
-        printf("Client Says-- There were no messages for me.\n");
+        printf("There were no messages for me. Status code: %d\n", return_value->status_code);
     }
     else {
-        printf("Client: Retrieved message: %s", return_value->message);
+        printf("Retrieved message: %s\n Status code: %d\n", return_value->message, return_value->status_code);
     }
 }
 

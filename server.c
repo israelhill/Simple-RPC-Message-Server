@@ -15,7 +15,7 @@ int check_for_multiple_clients(int id);
 
 client_data messages[100] = {{-1, ""}};
 int client_req_num = 0;
-int current_client_id;
+int current_client_id = 0;
 int past_client = 0;
 int count;
 
@@ -24,7 +24,7 @@ int *put_1_svc(struct client_data *argp, struct svc_req *rqstp) {
 	int id = argp->client_id;
 
 	current_client_id = argp->client_id;
-	printf("Put Request from Client #%d\n", current_client_id);
+	printf("Put Request from Client #%d, Time: %s\n", current_client_id, get_time());
 
 	if(client_req_num == 3) {
 		// there are already 3 clients communicating with the server
@@ -41,6 +41,8 @@ int *put_1_svc(struct client_data *argp, struct svc_req *rqstp) {
 
 struct response *get_1_svc(int *id, struct svc_req *rqstp) {
 	static struct response result;
+	current_client_id = *id;
+	printf("Get Request from Client #%d, Time: %s\n", current_client_id, get_time());
 
 	if(check_for_multiple_clients(current_client_id) == -1) {
 		result.status_code = -1;
@@ -52,14 +54,14 @@ struct response *get_1_svc(int *id, struct svc_req *rqstp) {
 
 	while(found_msg == 0) {
 		int rand_val = rand() % (client_req_num - 1);
-		int id = messages[rand_val].client_id;
+		int retrieved_data_id = messages[rand_val].client_id;
 
 		if(client_req_num <= 1) {
 			// You are the first client to request a msg. Only your msg is saved at this point.
-			result.status_code = -1;
+			result = {-1, ""};
 			return &result;
 		}
-		else if(id != current_client_id) {
+		else if(retrieved_data_id != current_client_id) {
 			found_msg = 1;
 			result.status_code = 0;
 			strcpy(result.message, messages[rand_val].client_msg);
