@@ -58,7 +58,7 @@ struct response *get_1_svc(int *id, struct svc_req *rqstp) {
 
 		if(client_req_num <= 1) {
 			// You are the first client to request a msg. Only your msg is saved at this point.
-			result = {-1, ""};
+			result.status_code = -1;
 			return &result;
 		}
 		else if(retrieved_data_id != current_client_id) {

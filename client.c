@@ -71,7 +71,7 @@ void send_msgs(int id) {
 void get_msgs() {
     struct response *return_value;
     int filler;
-    
+
     printf("Calling Get.\n");
     return_value = get_1((void *) filler, client);
 
