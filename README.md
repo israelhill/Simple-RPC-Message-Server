@@ -12,7 +12,8 @@ If a 4th client attempts to communicate with the server via get() or put(), he w
 ## Run Existing Code _(Recommended)_
 
 To run the program, you first need to start the server. I use _eecslinab7_ as the server. You then need to start 3
-clients.
+clients. I recommend that you make these calls in two separate terminal tabs so that the server and client outputs
+do not get mixed together.
 
 $ ssh -f idh@eecslinab7 "./assignment7/server"
 
