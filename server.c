@@ -30,7 +30,7 @@ int *put_1_svc(struct client_data *argp, struct svc_req *rqstp) {
 	current_client_id = argp->client_id;
 	printf("Put Request from Client #%d, Time: %s\n", current_client_id, get_time());
 
-	if(client_req_num == 3) {
+	if(add_client(id) == -1) {
 		// there are already 3 clients communicating with the server
 		result = -1;
 	}
@@ -48,7 +48,7 @@ struct response *get_1_svc(int *id, struct svc_req *rqstp) {
 	current_client_id = *id;
 	printf("Get Request from Client #%d, Time: %s\n", current_client_id, get_time());
 
-	if(add_client(current_client_id) == -1 || check_for_multiple_clients() == -1) {
+	if(check_for_multiple_clients() == -1) {
 		result.status_code = -1;
 		return &result;
 	}

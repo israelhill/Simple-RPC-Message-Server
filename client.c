@@ -67,7 +67,7 @@ void send_msgs(int id) {
     return_value = put_1(&data, client);
 
     if (*return_value == 0) {
-        printf(" Client #%d: Put successful. Status code: %d\n", id, *return_value);
+        printf("Client #%d: Put successful. Status code: %d\n", id, *return_value);
     }
 }
 
