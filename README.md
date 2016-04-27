@@ -21,7 +21,7 @@ $ ssh -f idh@eecslinab3 "./assignment7/client eecslinab7"; ssh -f idh@eecslinab3
 
 ## Run Downloaded Code
 
-If you run the code by downloading it, and not using the code that is not already on the servers, you will need to
+If you run the code by downloading it, and not using the code that is already on the servers, you will need to
 first run make. After running make, you will need to update the executables on each server via SFTP or some
 filer transfer client like Filezilla. These executables need to be in the _/home/idh/assignment7_ directories on each
 server.
