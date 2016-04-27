@@ -12,8 +12,9 @@
 
 #define MAX_CLIENTS 3
 
+int check_for_multiple_clients();
 char* get_time();
-int check_for_multiple_clients(int id);
+int add_client(int client_id);
 
 client_data messages[100] = {{-1, ""}};
 int active_clients[3] = {0, 0, 0};
@@ -21,10 +22,6 @@ int active_clients[3] = {0, 0, 0};
 int client_req_num = 0;
 int current_client_id = 0;
 int client_count = 0;
-
-int check_for_multiple_clients();
-char* get_time();
-int add_client(int client_id);
 
 int *put_1_svc(struct client_data *argp, struct svc_req *rqstp) {
 	static int  result;
