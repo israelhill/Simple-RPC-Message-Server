@@ -51,7 +51,7 @@ struct response *get_1_svc(int *id, struct svc_req *rqstp) {
 	current_client_id = *id;
 	printf("Get Request from Client #%d, Time: %s\n", current_client_id, get_time());
 
-	if(check_for_multiple_clients(current_client_id) == -1 || add_client(current_client_id) == -1) {
+	if(add_client(current_client_id) == -1 || check_for_multiple_clients() == -1) {
 		result.status_code = -1;
 		return &result;
 	}

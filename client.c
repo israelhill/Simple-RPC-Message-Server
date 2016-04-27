@@ -17,11 +17,17 @@ CLIENT *client;
 char* exe_fortune();
 
 void send_msgs(int id);
-void get_msgs();
+void get_msgs(int id);
 
 int main(int argc, char *argv[]){
     if (argc < 3) {
         printf("Usage: %s server host\n", argv[0]);
+        exit(EXIT_FAILURE);
+    }
+
+    // check that client id is not 0
+    if(atoi(argv[3]) == 0) {
+        printf("Usage: Client id was %s. Client id cannot be 0.\n", argv[3]);
         exit(EXIT_FAILURE);
     }
 
@@ -68,12 +74,12 @@ void send_msgs(int id) {
     }
 }
 
-void get_msgs() {
+void get_msgs(int id) {
     struct response *return_value;
     int filler;
 
     printf("Calling Get.\n");
-    return_value = get_1((void *) filler, client);
+    return_value = get_1(&id, client);
 
     if (return_value->status_code != 0) {
         printf("There were no messages for me. Status code: %d\n", return_value->status_code);
