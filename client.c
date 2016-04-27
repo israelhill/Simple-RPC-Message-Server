@@ -26,8 +26,8 @@ int main(int argc, char *argv[]){
     }
 
     // check that client id is not 0
-    if(atoi(argv[3]) == 0) {
-        printf("Usage: Client id was %s. Client id cannot be 0.\n", argv[3]);
+    if(atoi(argv[2]) == 0) {
+        printf("Usage: Client id was %s. Client id cannot be 0.\n", argv[2]);
         exit(EXIT_FAILURE);
     }
 
@@ -50,7 +50,7 @@ int main(int argc, char *argv[]){
     i = 0;
     while (i < 10) {
         sleep(1);
-        get_msgs();
+        get_msgs(atoi(argv[2]));
         i++;
     }
 
