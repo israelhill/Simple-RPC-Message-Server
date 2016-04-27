@@ -47,7 +47,7 @@ int main(int argc, char *argv[]){
     i = 0;
     while (i < 10) {
         sleep(1);
-        get_msgs(atoi(id);
+        get_msgs(id);
         i++;
     }
 
