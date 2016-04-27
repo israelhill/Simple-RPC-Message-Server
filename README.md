@@ -1,4 +1,4 @@
-**RPC Message Server**
+# RPC Message Server
 
 Each client will send 5 messages to the server at 1 second intervals. Clients will then wait 5 seconds
 before requesting 10 messages at 1 second intervals. The server will only send messages back to the client

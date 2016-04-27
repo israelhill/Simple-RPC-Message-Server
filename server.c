@@ -10,14 +10,21 @@
 #include <unistd.h>
 #include <time.h>
 
+#define MAX_CLIENTS 3
+
 char* get_time();
 int check_for_multiple_clients(int id);
 
 client_data messages[100] = {{-1, ""}};
+int active_clients[3] = {0, 0, 0};
+
 int client_req_num = 0;
 int current_client_id = 0;
-int past_client = 0;
-int count;
+int client_count = 0;
+
+int check_for_multiple_clients();
+char* get_time();
+int add_client(int client_id);
 
 int *put_1_svc(struct client_data *argp, struct svc_req *rqstp) {
 	static int  result;
@@ -44,7 +51,7 @@ struct response *get_1_svc(int *id, struct svc_req *rqstp) {
 	current_client_id = *id;
 	printf("Get Request from Client #%d, Time: %s\n", current_client_id, get_time());
 
-	if(check_for_multiple_clients(current_client_id) == -1) {
+	if(check_for_multiple_clients(current_client_id) == -1 || add_client(current_client_id) == -1) {
 		result.status_code = -1;
 		return &result;
 	}
@@ -71,24 +78,25 @@ struct response *get_1_svc(int *id, struct svc_req *rqstp) {
 	return &result;
 }
 
-// this function checks that the current client requesting a message
-// is not the only client who has put a message on the server so far
-int check_for_multiple_clients(int id) {
-	if(past_client == 0) {
-		past_client = id;
-		count++;
-		return -1;
+// this function checks that there are at least 2 clients on the server
+// if there is, we know a client can retrieve a message that is not his.
+int check_for_multiple_clients() {
+	int count = 0;
+
+	int i;
+	for(i = 0; i < MAX_CLIENTS; i++) {
+		if(active_clients[i] != 0) {
+			count++;
+		}
 	}
 
-	if(past_client == id && count == 1) {
-		return -1;
-	}
-	else {
-		count++;
+	if(count >= 2) {
 		return 0;
 	}
+	else {
+		return -1;
+	}
 }
-
 
 char* get_time() {
 	time_t rawtime;
@@ -97,4 +105,25 @@ char* get_time() {
 	time (&rawtime);
 	timeinfo = localtime(&rawtime);
 	return asctime(timeinfo);
+}
+
+// check if there is room on the server for another client
+// the server allows at most 3 clients
+int add_client(int client_id) {
+	int i;
+	for(i = 0; i < MAX_CLIENTS; i++) {
+		if(active_clients[i] == 0) {
+			active_clients[i] = client_id;
+			client_count++;
+			return 0;
+		}
+		else {
+			if(active_clients[i] == client_id) {
+				return 0;
+			}
+		}
+	}
+
+	// there are already 3 clients using the server
+	return -1;
 }
