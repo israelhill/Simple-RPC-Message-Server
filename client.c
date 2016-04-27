@@ -20,14 +20,10 @@ void send_msgs(int id);
 void get_msgs(int id);
 
 int main(int argc, char *argv[]){
-    if (argc < 3) {
-        printf("Usage: %s server host\n", argv[0]);
-        exit(EXIT_FAILURE);
-    }
+    int id = getpid();
 
-    // check that client id is not 0
-    if(atoi(argv[2]) == 0) {
-        printf("Usage: Client id was %s. Client id cannot be 0.\n", argv[2]);
+    if (argc < 2) {
+        printf("Usage: %s server host\n", argv[0]);
         exit(EXIT_FAILURE);
     }
 
@@ -41,16 +37,17 @@ int main(int argc, char *argv[]){
     int i = 0;
     while(i < 5) {
         sleep(1);
-        send_msgs(atoi(argv[2]));
+        send_msgs(id);
         i++;
     }
+
     sleep(5);
 
     // get 10 messages from the server
     i = 0;
     while (i < 10) {
         sleep(1);
-        get_msgs(atoi(argv[2]));
+        get_msgs(atoi(id);
         i++;
     }
 
@@ -65,12 +62,12 @@ void send_msgs(int id) {
     data.client_id = id;
     strcpy(data.client_msg, exe_fortune());
 
-    printf("Calling Put.\n");
+    printf("Client #%d: calling Put.\n", id);
     // send a message to the server
     return_value = put_1(&data, client);
 
     if (*return_value == 0) {
-        printf("Put successful. Status code: %d\n", *return_value);
+        printf(" Client #%d: Put successful. Status code: %d\n", id, *return_value);
     }
 }
 
@@ -82,10 +79,10 @@ void get_msgs(int id) {
     return_value = get_1(&id, client);
 
     if (return_value->status_code != 0) {
-        printf("There were no messages for me. Status code: %d\n", return_value->status_code);
+        printf("Client #%d: There were no messages for me. Status code: %d\n", id, return_value->status_code);
     }
     else {
-        printf("Retrieved message: %s\n Status code: %d\n", return_value->message, return_value->status_code);
+        printf("Client #%d: Retrieved message: %s, Status code: %d\n", id, return_value->message, return_value->status_code);
     }
 }
 
